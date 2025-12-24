@@ -1,8 +1,13 @@
-import TodoList from "./components/TodoList";
+import CarList from "./components/CarList";
 
 const App = () => {
   return (
-    <TodoList />
+    <div>
+      <h1>Welcome to the Car Showroom</h1>
+      {/* <CarList />*/}
+      {/* <CarList make="Toyota" />*/}
+      <CarList make="Tesla" />
+    </div>
   )
 }
 
