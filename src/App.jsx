@@ -1,11 +1,9 @@
-import SpeedMessage from "./components/SpeedMessage";
+import TodoList from "./components/TodoList";
 
-const App = () => (
-  <>
-    <SpeedMessage speed={35} />
-    <SpeedMessage speed={55} />
-    <SpeedMessage speed={85} />
-  </>
-);
+const App = () => {
+  return (
+    <TodoList />
+  )
+}
 
 export default App;
