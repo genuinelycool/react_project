@@ -1,22 +1,28 @@
+import Button from "./Button";
+
 const App = () => {
-  const handleClick = () => console.log("Button clicked!");
+  const changeToGreen = () => {
+    document.body.style.backgroundColor = "lightgreen";
+  }
   
-  let count = 0;
-  const handleIncrement = () => {
-    count++;
-    console.log(count);
+  const changeToBlue = () => {
+    document.body.style.backgroundColor = "lightblue";
   }
   
   return (
     <>
-      {/* <button onClick={() => console.log("Button clicked!")}>*/}
-      <button onClick={handleClick}>
-        Click me
-      </button>
       
-      <button onClick={handleIncrement}>
-        Increment
-      </button>
+      <Button onClick={()=>console.log("Button clicked!")}>
+        Log Message
+      </Button>
+      
+      <Button onClick={changeToGreen}>
+        Change to Green
+      </Button>
+      
+      <Button onClick={changeToBlue}>
+        Change to Blue
+      </Button>
       
     </>
   );
