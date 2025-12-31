@@ -1,30 +1,36 @@
-import Button from "./Button";
-
 const App = () => {
-  const changeToGreen = () => {
-    document.body.style.backgroundColor = "lightgreen";
-  }
+  const handleParentClick = () => console.log('Parent Clicked');
+  // const handleChildClick = () => console.log('Child Clicked');
   
-  const changeToBlue = () => {
-    document.body.style.backgroundColor = "lightblue";
+  const handleChildClick = (e) => {
+    // Stop event from reaching the parent
+    e.stopPropagation();
+    console.log('Child Clicked');
   }
   
   return (
-    <>
+    <div
+      onClick={handleParentClick}
+      style={{
+        padding: "30px",
+        background: "lightgreen",
+        textAlign: "center",
+      }}
+    >
+      Parent
       
-      <Button onClick={()=>console.log("Button clicked!")}>
-        Log Message
-      </Button>
+      <div
+        onClick={handleChildClick}
+        style={{
+          marginTop: "20px",
+          padding: "20px",
+          background: "lightblue",
+        }}
+      >
+        Child
+      </div>
       
-      <Button onClick={changeToGreen}>
-        Change to Green
-      </Button>
-      
-      <Button onClick={changeToBlue}>
-        Change to Blue
-      </Button>
-      
-    </>
+    </div>
   );
 };
 
