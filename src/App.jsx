@@ -1,40 +1,68 @@
 import { useState } from "react";
+import { produce } from "immer";
+
+// NOTE: ✅ Always create new objects when updating states to ensure react’s efficient reconciliation
 
 const App = () => {
   // State for the counter
-  const [count, setCount] = useState(0);
+  const [user, setUser] = useState({
+    name: "Alice",
+    details: {
+      age: 25,
+      location: "New York",
+    },
+  });
   
-  // Updating state by passing a value (may cause stale state issues)
-  const incrementWithValue = () => {
-    setCount(count + 1);
-    setCount(count + 1);  // Might not work as expected due to stale state
+  // ❌ Incorrect: Mutating the existing state directly
+  const updateNameIncorrect = () => {
+    // Directly modifying state (WRONG)
+    user.name = "Bob";
+    // Setting the same object reference (React won't detect change)
+    setUser(user);
   };
   
-  // Updating state by passing a function (always gets teh latest state)
-  const incrementWithFunction = () => {
-    setCount(prev => prev + 1);
-    console.log(count);
-    setCount(prev => prev + 1); // Correctly updates twice
-    console.log(count);
+  // ✅ Correctly updating the object state (without mutation)
+  const updateName = () => {
+    setUser({ ...user, name: "Bob" });  // Creating a new object
+  };
+  
+  // ✅ Updating a nest oject without mutation
+  const updateLocation = () => {
+    setUser({
+      ...user,
+      details: {
+        ...user.details,  // Copy existing details
+        location: "San Francisco", // Update only location
+      },
+    });
+  };
+  
+  // ✅ Using Immer to simplify updates
+  const updateAgeWithImmer = () => {
+    setUser(
+      produce(user, (draft) => {
+        // Immer allows directly updates without breaking immutability
+        draft.details.age = 30;
+      })
+    );
   };
   
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}> 
-      <h1>Counter: {count}</h1>
+    <div style={{ padding: "20px", fontFamily: "Arial" }}> 
       
-      <button
-        onClick={incrementWithValue}
-        style={{ margin: "5px", padding: "10px" }}
-      >
-        Increment (Using Value)
-      </button>
+      <button onClick={updateName}>Change Name to Bob</button>
+      <button onClick={updateLocation}>Change Location to San Francisco</button>
+      <button onClick={updateAgeWithImmer}>Change Age to 30</button>
       
-      <button
-        onClick={incrementWithFunction}
-        style={{ margin: "5px", padding: "10px" }}
-      >
-        Increment (Using Function)
-      </button>
+      <p>
+        <strong>Name:</strong> {user.name}
+      </p>
+      <p>
+        <strong>Age:</strong> {user.details.age}
+      </p>
+      <p>
+        <strong>Location:</strong> {user.details.location}
+      </p>
     </div>
   );
 };
